@@ -38,9 +38,6 @@ export default function WasteTypeSelector() {
   const handleSelect = (key) => {
     setSelected(key);
     setError('');
-    if (key !== 'plasterboard') {
-      setPlasterboardChoice(null);
-    }
   };
 
   const handleContinue = async () => {

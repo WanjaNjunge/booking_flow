@@ -54,9 +54,8 @@ test.describe('Heavy Waste — Disabled Skip Validation', () => {
     await page.locator(SELECTORS.WASTE_TYPE_HEAVY).click();
     await page.locator(SELECTORS.STEP2_CONTINUE).click();
 
-    // Try to continue without selecting skip
+    // Cannot continue without selecting skip
     await expect(page.locator(skipCard('4-yard'))).toBeVisible({ timeout: 5000 });
-    await page.locator(SELECTORS.STEP3_CONTINUE).click();
-    await expect(page).not.toHaveURL(/\/step\/4/);
+    await expect(page.locator(SELECTORS.STEP3_CONTINUE)).toBeDisabled();
   });
 });

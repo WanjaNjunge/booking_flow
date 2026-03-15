@@ -51,7 +51,7 @@
 
 ## Current Session
 **Session 5 — README, Docker, Render Deployment**
-**Status:** Not started
+**Status:** In progress — Task 1 (README.md) ✅
 **Goal:** Write README.md, verify Docker build,
   deploy to Render.com, final submission prep
 
@@ -104,8 +104,8 @@
 | Item | Status |
 |---|---|
 | Public demo link (Render.com) | 🔲 Pending |
-| Docker — `docker compose up` works | 🔲 Pending |
-| README.md complete | 🔲 Pending |
+| Docker — `docker compose up` works | ✅ |
+| README.md complete | ✅ |
 | manual-tests.md — 45+ cases | ✅ |
 | bug-reports.md — 3 bugs | ✅ |
 | automation/ — 3 E2E specs passing | ✅ |
