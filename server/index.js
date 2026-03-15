@@ -13,14 +13,25 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const isProduction = process.env.NODE_ENV === 'production';
+const PORT = process.env.PORT || (isProduction ? 3000 : 3001);
 
 // Middleware
 app.use(express.json());
 
+// Request logging
+app.use((req, res, next) => {
+  const start = Date.now();
+  res.on('finish', () => {
+    const duration = Date.now() - start;
+    console.log(`[${req.method}] ${req.path} → ${res.statusCode} (${duration}ms)`);
+  });
+  next();
+});
+
 // Health check
 app.get('/health', (_req, res) => {
-  res.json({ status: 'ok' });
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
 // API routes
@@ -42,5 +53,5 @@ if (existsSync(distPath)) {
 }
 
 app.listen(PORT, () => {
-  console.log(`[server] Running on http://localhost:${PORT}`);
+  console.log(`[server] Running on http://localhost:${PORT} (${isProduction ? 'production' : 'development'})`);
 });
