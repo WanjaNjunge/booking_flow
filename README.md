@@ -37,7 +37,7 @@ Then open: [http://localhost:5173](http://localhost:5173)
 
 ## Live Demo
 
-[View live demo →](https://booking-flow-qa.onrender.com)
+[View live demo →](https://booking-flow-0jfo.onrender.com)
 
 > **Note:** The Render.com free tier may take 30–60 seconds to spin up on first visit.
 
