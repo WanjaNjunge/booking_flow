@@ -1,0 +1,13 @@
+{
+  "default": [
+    { "size": "2-yard", "price": 80, "disabled": false },
+    { "size": "4-yard", "price": 120, "disabled": false },
+    { "size": "6-yard", "price": 160, "disabled": false },
+    { "size": "8-yard", "price": 200, "disabled": false },
+    { "size": "10-yard", "price": 240, "disabled": false },
+    { "size": "12-yard", "price": 260, "disabled": false },
+    { "size": "14-yard", "price": 300, "disabled": false },
+    { "size": "16-yard", "price": 340, "disabled": false }
+  ],
+  "heavyWasteDisabled": ["12-yard", "14-yard", "16-yard"]
+}

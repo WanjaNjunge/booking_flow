@@ -1,0 +1,5 @@
+/* Stepper styles — to be implemented in Session 2 */
+.stepper {
+  display: flex;
+  gap: 1rem;
+}

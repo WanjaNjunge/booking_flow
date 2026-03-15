@@ -1,0 +1,27 @@
+{
+  "SW1A 1AA": [
+    { "id": "addr_1", "line1": "10 Downing Street", "city": "London" },
+    { "id": "addr_2", "line1": "11 Downing Street", "city": "London" },
+    { "id": "addr_3", "line1": "12 Downing Street", "city": "London" },
+    { "id": "addr_4", "line1": "1 Horse Guards Road", "city": "London" },
+    { "id": "addr_5", "line1": "2 Horse Guards Road", "city": "London" },
+    { "id": "addr_6", "line1": "3 Carlton Gardens", "city": "London" },
+    { "id": "addr_7", "line1": "4 Carlton Gardens", "city": "London" },
+    { "id": "addr_8", "line1": "1 Treasury Place", "city": "London" },
+    { "id": "addr_9", "line1": "Admiralty Arch", "city": "London" },
+    { "id": "addr_10", "line1": "Old Admiralty Building", "city": "London" },
+    { "id": "addr_11", "line1": "Cabinet Office", "city": "London" },
+    { "id": "addr_12", "line1": "Foreign & Commonwealth Office", "city": "London" }
+  ],
+  "EC1A 1BB": [],
+  "M1 1AE": [
+    { "id": "addr_m1", "line1": "1 Piccadilly Place", "city": "Manchester" },
+    { "id": "addr_m2", "line1": "2 Portland Street", "city": "Manchester" },
+    { "id": "addr_m3", "line1": "3 Mosley Street", "city": "Manchester" }
+  ],
+  "BS1 4DJ": [
+    { "id": "addr_b1", "line1": "1 Broad Quay", "city": "Bristol" },
+    { "id": "addr_b2", "line1": "2 Queen Square", "city": "Bristol" },
+    { "id": "addr_b3", "line1": "3 King Street", "city": "Bristol" }
+  ]
+}
