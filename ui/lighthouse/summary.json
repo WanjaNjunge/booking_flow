@@ -1,0 +1,9 @@
+{
+  "categories": {
+    "performance": { "score": 1, "title": "Performance" },
+    "accessibility": { "score": 1, "title": "Accessibility" },
+    "best-practices": { "score": 1, "title": "Best Practices" },
+    "seo": { "score": 1, "title": "SEO" },
+    "pwa": { "score": 1, "title": "PWA" }
+  }
+}
