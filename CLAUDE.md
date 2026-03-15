@@ -99,3 +99,8 @@ BUG-002 | High | Accessibility + Disabled Logic
 BUG-003 | Low | Double Submit
   On Step 4, clicking "Confirm Booking" during slow network allows a second click before button disables.
   Root cause: setSubmitting(true) called after await resolves, not before.
+
+## Session Protocol
+- Read STATE.md before starting any task
+- Update STATE.md after every completed task
+- Never start a new session without checking STATE.md first
