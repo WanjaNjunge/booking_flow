@@ -1,1 +1,187 @@
-/* Step 1 styles — to be implemented in Session 2 */
+.container {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  color: var(--color-text);
+}
+
+.subtitle {
+  color: var(--color-text-muted);
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+
+.form {
+  margin-bottom: 1.5rem;
+}
+
+.inputRow {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-family: var(--font);
+  transition: border-color var(--transition-fast);
+  background: var(--color-surface);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.inputError {
+  border-color: var(--color-error) !important;
+}
+
+.error {
+  color: var(--color-error);
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+/* Address List */
+.addressList {
+  margin-top: 1rem;
+}
+
+.addressCount {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.addressScroll {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+}
+
+.addressOption {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-bottom: 1px solid var(--color-border);
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  font-size: 0.9rem;
+  font-family: var(--font);
+  transition: background var(--transition-fast);
+}
+
+.addressOption:last-child {
+  border-bottom: none;
+}
+
+.addressOption:hover {
+  background: #f0f4ff;
+}
+
+.addressOption:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -2px;
+}
+
+.addressSelected {
+  background: #e0e7ff !important;
+  font-weight: 600;
+}
+
+.addressLine {
+  color: var(--color-text);
+}
+
+.addressCity {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+}
+
+/* Manual entry */
+.manualLink {
+  display: inline-block;
+  margin-top: 0.75rem;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-primary);
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-decoration: underline;
+  font-family: var(--font);
+}
+
+.manualLink:hover {
+  color: var(--color-primary-hover);
+}
+
+.manualForm {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+}
+
+.manualTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.field {
+  margin-bottom: 1rem;
+}
+
+.field label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  color: var(--color-text);
+}
+
+.field input {
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  font-family: var(--font);
+  transition: border-color var(--transition-fast);
+}
+
+.field input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.fieldError {
+  color: var(--color-error);
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .inputRow {
+    max-width: 480px;
+  }
+}

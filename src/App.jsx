@@ -1,24 +1,39 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { BookingProvider } from './context/BookingContext';
+import Stepper from './components/common/Stepper';
+import PostcodeLookup from './components/step1/PostcodeLookup';
+import WasteTypeSelector from './components/step2/WasteTypeSelector';
+import SkipSelector from './components/step3/SkipSelector';
+import ReviewSummary from './components/step4/ReviewSummary';
 
-/**
- * App shell — layout, stepper, and route definitions.
- * Component logic to be implemented in Session 2.
- */
-export default function App() {
+function AppContent() {
+  const location = useLocation();
+  const match = location.pathname.match(/\/step\/(\d)/);
+  const currentStep = match ? parseInt(match[1], 10) : 1;
+
   return (
     <div className="app" data-testid="app">
       <header className="app-header">
         <h1>Skip Hire Booking</h1>
       </header>
       <main className="app-main">
+        <Stepper currentStep={currentStep} />
         <Routes>
           <Route path="/" element={<Navigate to="/step/1" replace />} />
-          <Route path="/step/1" element={<div>Step 1 — Postcode Lookup</div>} />
-          <Route path="/step/2" element={<div>Step 2 — Waste Type</div>} />
-          <Route path="/step/3" element={<div>Step 3 — Skip Selection</div>} />
-          <Route path="/step/4" element={<div>Step 4 — Review & Confirm</div>} />
+          <Route path="/step/1" element={<PostcodeLookup />} />
+          <Route path="/step/2" element={<WasteTypeSelector />} />
+          <Route path="/step/3" element={<SkipSelector />} />
+          <Route path="/step/4" element={<ReviewSummary />} />
         </Routes>
       </main>
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <BookingProvider>
+      <AppContent />
+    </BookingProvider>
   );
 }

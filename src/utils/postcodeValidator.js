@@ -1,16 +1,14 @@
-/**
- * UK postcode regex validation.
- * Implementation to be completed in Session 2.
- */
+const UK_POSTCODE_REGEX = /^[A-Z]{1,2}[0-9][0-9A-Z]?\s?[0-9][A-Z]{2}$/i;
+
 export function isValidPostcode(postcode) {
-  // TODO: UK postcode regex
-  return typeof postcode === 'string' && postcode.trim().length > 0;
+  if (!postcode || typeof postcode !== 'string') return false;
+  return UK_POSTCODE_REGEX.test(postcode.trim());
 }
 
-/**
- * Normalize postcode by removing spaces.
- * e.g. "SW1A 1AA" → "SW1A1AA"
- */
 export function normalizePostcode(postcode) {
-  return postcode.replace(/\s+/g, '').toUpperCase();
+  const cleaned = postcode.replace(/\s+/g, '').toUpperCase();
+  if (cleaned.length >= 5) {
+    return cleaned.slice(0, -3) + ' ' + cleaned.slice(-3);
+  }
+  return cleaned;
 }

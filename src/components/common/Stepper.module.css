@@ -1,5 +1,86 @@
-/* Stepper styles — to be implemented in Session 2 */
 .stepper {
   display: flex;
-  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  margin-bottom: 2rem;
+  padding: 1rem 0;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  transition: all var(--transition-base);
+  position: relative;
+}
+
+.step:not(:last-child)::after {
+  content: '';
+  width: 2rem;
+  height: 2px;
+  background: var(--color-border);
+  margin-left: 0.5rem;
+}
+
+.step.active {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.step.completed {
+  color: var(--color-success);
+}
+
+.step.completed::after {
+  background: var(--color-success);
+}
+
+.step.active::after {
+  background: var(--color-primary);
+}
+
+.indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  font-size: 0.8rem;
+  font-weight: 600;
+  flex-shrink: 0;
+  border: 2px solid var(--color-border);
+  background: var(--color-surface);
+  transition: all var(--transition-base);
+}
+
+.active .indicator {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.completed .indicator {
+  border-color: var(--color-success);
+  background: var(--color-success);
+  color: #fff;
+}
+
+.label {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .stepper {
+    gap: 0.5rem;
+  }
+
+  .label {
+    display: inline;
+  }
 }

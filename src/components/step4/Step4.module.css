@@ -1,1 +1,120 @@
-/* Step 4 styles — to be implemented in Session 2 */
+.container {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.subtitle {
+  color: var(--color-text-muted);
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+
+.sections {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.section {
+  padding: 1.25rem;
+  border: 1px solid var(--color-border);
+  border-bottom: none;
+  background: var(--color-surface);
+}
+
+.section:first-child {
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.section:last-child,
+.priceSection:last-child {
+  border-bottom: 1px solid var(--color-border);
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+
+.sectionTitle {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.detail {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+}
+
+/* Price Breakdown */
+.priceSection {
+  padding: 1.25rem;
+  border: 1px solid var(--color-border);
+  border-bottom: none;
+  background: #f0fdf4;
+}
+
+.priceRows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.priceRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+}
+
+.priceTotal {
+  border-top: 2px solid var(--color-border);
+  padding-top: 0.5rem;
+  margin-top: 0.25rem;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+/* Success */
+.success {
+  text-align: center;
+  padding: 3rem 1.5rem;
+}
+
+.successIcon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.bookingIdLabel {
+  color: var(--color-text-muted);
+  margin-top: 1rem;
+}
+
+.bookingId {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  font-family: monospace;
+  margin-top: 0.25rem;
+}
+
+.successNote {
+  color: var(--color-text-muted);
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+}
