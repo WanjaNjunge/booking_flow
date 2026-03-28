@@ -7,27 +7,48 @@ const STEPS = [
   { number: 4, label: 'Review' },
 ];
 
-export default function Stepper({ currentStep = 1 }) {
+export default function Stepper({ currentStep = 1, onStepClick }) {
   return (
     <nav className={styles.stepper} data-testid="stepper" aria-label="Booking progress">
       {STEPS.map((step) => {
         const isActive = step.number === currentStep;
         const isCompleted = step.number < currentStep;
+        const isClickable = isCompleted && typeof onStepClick === 'function';
 
         let className = styles.step;
         if (isActive) className += ` ${styles.active}`;
         if (isCompleted) className += ` ${styles.completed}`;
+        if (isClickable) className += ` ${styles.clickable}`;
+
+        const indicator = (
+          <span className={styles.indicator}>
+            {isCompleted ? '✓' : step.number}
+          </span>
+        );
+
+        if (isClickable) {
+          return (
+            <button
+              key={step.number}
+              className={className}
+              data-testid={`stepper-step-${step.number}`}
+              aria-label={`Go to step ${step.number}: ${step.label}`}
+              onClick={() => onStepClick(step.number)}
+            >
+              {indicator}
+              <span className={styles.label}>{step.label}</span>
+            </button>
+          );
+        }
 
         return (
           <div
             key={step.number}
             className={className}
-            data-testid={`step-${step.number}`}
+            data-testid={`stepper-step-${step.number}`}
             aria-current={isActive ? 'step' : undefined}
           >
-            <span className={styles.indicator}>
-              {isCompleted ? '✓' : step.number}
-            </span>
+            {indicator}
             <span className={styles.label}>{step.label}</span>
           </div>
         );

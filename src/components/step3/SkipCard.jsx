@@ -4,13 +4,17 @@ import styles from './Step3.module.css';
 export default function SkipCard({ skip, isSelected, onSelect }) {
   const { size, price, disabled } = skip;
 
-  // BUG-002: disabled prop NOT passed to <button> — only CSS class applied
-  // Button remains keyboard-focusable and selectable via Enter/Space
+  const ariaLabel = disabled
+    ? `${size} skip — not available for heavy waste`
+    : `Select ${size} skip, £${price}`;
+
   return (
     <button
       className={`${styles.card} ${disabled ? styles.cardDisabled : ''} ${isSelected ? styles.cardSelected : ''}`}
       data-testid={disabled ? `skip-card-${size}-disabled` : `skip-card-${size}`}
-      onClick={() => onSelect(skip)}
+      onClick={() => !disabled && onSelect(skip)}
+      disabled={disabled}
+      aria-label={ariaLabel}
     >
       <span className={styles.cardSize}>{size}</span>
       <span className={styles.cardPrice}>{formatCurrency(price)}</span>

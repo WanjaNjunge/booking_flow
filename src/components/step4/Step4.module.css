@@ -118,3 +118,84 @@
   margin-top: 1.5rem;
   font-size: 0.95rem;
 }
+
+/* Form fields */
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.fieldGroup:last-child {
+  margin-bottom: 0;
+}
+
+.label {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.optional {
+  color: var(--color-text-muted);
+  font-weight: 400;
+}
+
+.input {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.input:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+}
+
+.inputError {
+  border-color: #dc2626;
+}
+
+.fieldError {
+  color: #dc2626;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.fieldHint {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  margin: 0.25rem 0 0;
+}
+
+/* Terms checkbox */
+.termsRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.termsRow input[type="checkbox"] {
+  margin-top: 0.15rem;
+  flex-shrink: 0;
+  width: 1rem;
+  height: 1rem;
+  cursor: pointer;
+}
+
+/* Inline error */
+:global(.error-inline) {
+  color: #dc2626;
+  font-size: 0.875rem;
+  margin: 0 0 0.5rem;
+}
+
+/* Start new booking */
+.newBookingBtn {
+  margin-top: 1.5rem;
+}

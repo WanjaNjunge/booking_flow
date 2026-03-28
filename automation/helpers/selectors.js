@@ -5,10 +5,10 @@
 export const SELECTORS = {
   // Stepper
   STEPPER: '[data-testid="stepper"]',
-  STEP_1: '[data-testid="step-1"]',
-  STEP_2: '[data-testid="step-2"]',
-  STEP_3: '[data-testid="step-3"]',
-  STEP_4: '[data-testid="step-4"]',
+  STEP_1: '[data-testid="stepper-step-1"]',
+  STEP_2: '[data-testid="stepper-step-2"]',
+  STEP_3: '[data-testid="stepper-step-3"]',
+  STEP_4: '[data-testid="stepper-step-4"]',
 
   // Step 1
   POSTCODE_INPUT: '[data-testid="postcode-input"]',
@@ -43,12 +43,22 @@ export const SELECTORS = {
   REVIEW_WASTE_TYPE: '[data-testid="review-waste-type"]',
   REVIEW_PLASTERBOARD_OPTION: '[data-testid="review-plasterboard-option"]',
   REVIEW_SKIP_SIZE: '[data-testid="review-skip-size"]',
+  REVIEW_CONTACT_EMAIL: '[data-testid="review-contact-email"]',
+  REVIEW_DELIVERY_DATE: '[data-testid="review-delivery-date"]',
   PRICE_BASE: '[data-testid="price-base"]',
   PRICE_VAT: '[data-testid="price-vat"]',
   PRICE_TOTAL: '[data-testid="price-total"]',
+  CONTACT_EMAIL: '[data-testid="contact-email"]',
+  CONTACT_PHONE: '[data-testid="contact-phone"]',
+  CONTACT_EMAIL_ERROR: '[data-testid="contact-email-error"]',
+  DELIVERY_DATE_INPUT: '[data-testid="delivery-date-input"]',
+  DELIVERY_DATE_ERROR: '[data-testid="delivery-date-error"]',
+  TERMS_CHECKBOX: '[data-testid="terms-checkbox"]',
   CONFIRM_BUTTON: '[data-testid="confirm-button"]',
+  CONFIRM_ERROR: '[data-testid="confirm-error"]',
   BOOKING_SUCCESS: '[data-testid="booking-success"]',
   BOOKING_ID: '[data-testid="booking-id"]',
+  START_NEW_BOOKING: '[data-testid="start-new-booking"]',
   STEP4_BACK: '[data-testid="step4-back"]',
 
   // Common
@@ -65,3 +75,5 @@ export const skipCardDisabled = (size) =>
   `[data-testid="skip-card-${size}-disabled"]`;
 export const addressOption = (id) =>
   `[data-testid="address-option-${id}"]`;
+export const stepperStep = (n) =>
+  `[data-testid="stepper-step-${n}"]`;

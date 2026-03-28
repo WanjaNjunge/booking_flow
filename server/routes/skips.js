@@ -11,8 +11,11 @@ const HEAVY_WASTE_DISABLED = ['12-yard', '14-yard'];
 
 // GET /api/skips?postcode=SW1A1AA&heavyWaste=true
 router.get('/skips', (req, res) => {
-  const { heavyWaste } = req.query;
+  const { heavyWaste, postcode } = req.query;
   const isHeavy = heavyWaste === 'true';
+  
+  // Normalize postcode by stripping spaces as per spec
+  const normalizedPostcode = postcode ? postcode.replace(/\s+/g, '').toUpperCase() : '';
 
   const skips = skipsData.default.map((skip) => ({
     ...skip,

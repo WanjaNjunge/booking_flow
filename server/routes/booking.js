@@ -9,7 +9,7 @@ const REQUIRED_FIELDS = ['postcode', 'addressId', 'skipSize', 'price'];
 router.post('/booking/confirm', (req, res) => {
   const { postcode, addressId, skipSize, price } = req.body;
 
-  // Validate required fields
+  // Validate required fields and types strictly
   const missing = REQUIRED_FIELDS.filter((field) => {
     const val = req.body[field];
     return val === undefined || val === null || val === '';
@@ -19,6 +19,20 @@ router.post('/booking/confirm', (req, res) => {
     return res.status(400).json({
       error: 'Missing required fields',
       missing,
+    });
+  }
+
+  // Strict type validation
+  if (
+    typeof req.body.postcode !== 'string' ||
+    typeof req.body.addressId !== 'string' ||
+    typeof req.body.skipSize !== 'string' ||
+    typeof req.body.price !== 'number' ||
+    (req.body.heavyWaste !== undefined && typeof req.body.heavyWaste !== 'boolean') ||
+    (req.body.plasterboard !== undefined && typeof req.body.plasterboard !== 'boolean')
+  ) {
+    return res.status(400).json({
+      error: 'Invalid payload schema: incorrect property types',
     });
   }
 

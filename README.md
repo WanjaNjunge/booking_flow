@@ -1,216 +1,155 @@
-# Booking Flow — QA Assessment
+# Skip Hire Booking Flow
 
-## Overview
+A 4-step skip hire booking flow demonstrating full-stack engineering and QA methodology.
 
-A 4-step skip hire booking flow built as a QA Engineering assessment for REM Waste. The application simulates a real-world skip booking process with postcode lookup, waste type selection with branching logic, skip size selection with conditional disabling, and a review/confirmation step with price breakdown. The project includes comprehensive QA deliverables: 45+ manual test cases, 3 automated E2E specs, 3 documented bug reports, Lighthouse audits, and full UI evidence (screenshots + video).
+[![CI](https://github.com/WanjaNjunge/booking_flow/actions/workflows/ci.yml/badge.svg)](https://github.com/WanjaNjunge/booking_flow/actions/workflows/ci.yml)
+[![Live Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://booking-flow-0jfo.onrender.com)
 
-## Tech Stack
+---
 
-| Layer | Technology | Reason |
-|-------|-----------|--------|
-| Frontend | React 18 + Vite | Fast HMR, modern JSX support, zero-config SPA builds |
-| Backend | Express.js + JSON fixtures | Lightweight API layer with deterministic test data — no database needed |
-| Testing | Playwright | Cross-browser E2E automation with built-in assertions, auto-wait, and video recording |
-| DevOps | Docker + Render.com | Reproducible builds via multi-stage Dockerfile; free-tier hosting with public URL |
+## Architecture
+
+```
+Browser
+  └── React 18 SPA (Vite)
+        ├── Step 1: Postcode / Address Lookup
+        ├── Step 2: Waste Type (+ Plasterboard branching)
+        ├── Step 3: Skip Size Selection
+        └── Step 4: Contact + Delivery Date + Confirm
+              └── Express.js REST API
+                    └── JSON Fixtures (deterministic test data)
+```
+
+State is managed via React Context with sessionStorage persistence — a browser refresh restores in-progress bookings.
+
+---
+
+## What This Demonstrates
+
+**Full-stack architecture**
+- React 18 Context + hooks (`useApi`, `useBooking`) for state and async data fetching
+- Express.js REST API with deterministic JSON fixtures; no database required
+- SPA routing with react-router-dom; Express catch-all for production builds
+
+**Test strategy**
+- Vitest unit tests for pure functions and hooks with V8 coverage
+- Playwright E2E tests covering 3 complete user flows
+- Manual test matrix: 47 cases across positive, negative, edge, and API-failure categories
+- See [TESTING_STRATEGY.md](TESTING_STRATEGY.md) for the full rationale
+
+**QA methodology**
+- 3 defects documented with severity, root cause, reproduction steps, and fix — see [bug-reports.md](bug-reports.md)
+- Regression tests updated to assert corrected behaviour after each fix
+- Defect lifecycle: surfaced during exploratory testing → documented → fixed → regression-tested
+
+**Accessibility**
+- BUG-002 fix: `disabled={disabled}` passed to `<button>` elements (WCAG 2.1 SC 2.1.1 — Keyboard)
+- ARIA labels on skip cards: enabled and disabled states
+- Clickable stepper with `aria-label="Go to step N: [name]"` on completed steps
+- All interactive elements have `data-testid` attributes
+
+**DevOps**
+- Multi-stage Dockerfile: Stage 1 builds the Vite SPA; Stage 2 runs Express serving `dist/`
+- GitHub Actions CI: unit tests (with lcov coverage artifact) → E2E tests (Chromium)
+- Deployed on Render.com free tier with `GET /health` endpoint
+
+---
+
+## Fixture Postcodes
+
+| Postcode | Behaviour |
+|----------|-----------|
+| `SW1A 1AA` | 12 addresses — happy path |
+| `EC1A 1BB` | 0 addresses — auto-renders manual entry form |
+| `M1 1AE` | Simulated 3s latency — tests loading state |
+| `BS1 4DJ` | 500 on first call, 200 on retry — tests error + retry flow |
+
+---
 
 ## Quick Start
 
-### Option A — Docker (Recommended)
-
-```bash
-git clone https://github.com/WanjaNjunge/booking_flow.git
-cd booking_flow
-docker compose up --build
-```
-
-Then open: [http://localhost:3000](http://localhost:3000)
-
-### Option B — Local Dev
-
 ```bash
 npm install
-npx playwright install chromium
 npm run dev
+# → http://localhost:5173
 ```
 
-Then open: [http://localhost:5173](http://localhost:5173)
+---
+
+## Testing
+
+**Unit tests (Vitest)**
+```bash
+npm run test:unit:coverage
+# Coverage report written to coverage/lcov.info
+```
+
+**E2E tests (Playwright)**
+```bash
+npx playwright install chromium   # first time only
+npm run test:e2e
+```
+
+---
+
+## Docker
+
+```bash
+docker compose up --build
+# → http://localhost:3000
+```
+
+---
 
 ## Live Demo
 
-[View live demo →](https://booking-flow-0jfo.onrender.com)
+[https://booking-flow-0jfo.onrender.com](https://booking-flow-0jfo.onrender.com)
 
-> **Note:** The Render.com free tier may take 30–60 seconds to spin up on first visit.
+> Free tier — allow ~30s on first visit for cold start.
+
+---
 
 ## Project Structure
 
 ```
 booking-flow/
-├── automation/                  # Playwright E2E test suite
-│   ├── helpers/
-│   │   └── selectors.js         # Centralised data-testid constants
-│   ├── tests/
-│   │   ├── general-waste-flow.spec.js
-│   │   ├── heavy-waste-flow.spec.js
-│   │   └── plasterboard-flow.spec.js
-│   └── playwright.config.js     # Playwright configuration
-├── server/                      # Express backend
-│   ├── fixtures/
-│   │   ├── addresses.json       # Deterministic address data
-│   │   └── skips.json           # Skip options with pricing
-│   ├── routes/
-│   │   ├── booking.js           # POST /api/booking/confirm
-│   │   ├── debug.js             # GET /api/debug/reset-retry
-│   │   ├── postcode.js          # POST /api/postcode/lookup
-│   │   ├── skips.js             # GET /api/skips
-│   │   └── wasteTypes.js        # POST /api/waste-types
-│   └── index.js                 # Express server entry point
-├── src/                         # React frontend
+├── .github/workflows/ci.yml        # GitHub Actions: unit → E2E
+├── automation/
+│   ├── helpers/selectors.js         # Centralised data-testid constants
+│   └── tests/                       # 3 Playwright specs
+├── server/
+│   ├── fixtures/                    # addresses.json, skips.json
+│   └── routes/                      # booking, skips, postcode, debug
+├── src/
 │   ├── components/
-│   │   ├── common/              # Shared UI: Button, Stepper, Loading, Error, Empty
-│   │   ├── step1/               # Postcode lookup + address selection + manual entry
-│   │   ├── step2/               # Waste type selector + plasterboard branching
-│   │   ├── step3/               # Skip selection with disabled logic
-│   │   └── step4/               # Review summary + price breakdown + confirm
-│   ├── context/
-│   │   └── BookingContext.jsx   # Global booking state (React Context)
-│   ├── hooks/
-│   │   ├── useApi.js            # Fetch wrapper with loading/error states
-│   │   └── useBookingFlow.js    # Step navigation logic
-│   ├── utils/
-│   │   ├── formatCurrency.js    # £ currency formatter
-│   │   └── postcodeValidator.js # UK postcode regex validation
-│   ├── App.jsx                  # Root component with step routing
-│   ├── index.css                # Global styles
-│   └── main.jsx                 # React entry point
-├── ui/                          # QA evidence
-│   ├── screenshots/
-│   │   ├── desktop/             # 12 desktop screenshots
-│   │   └── mobile/              # 12 mobile screenshots
-│   ├── videos/                  # Flow recording (booking-flow.webm)
-│   └── lighthouse/              # Lighthouse performance/accessibility report
-├── bug-reports.md               # 3 documented bugs (BUG-001 to BUG-003)
-├── manual-tests.md              # 45+ manual test cases
-├── CLAUDE.md                    # Project rules and architecture reference
-├── STATE.md                     # Session progress tracker
-├── Dockerfile                   # Multi-stage build (Vite → Express)
-├── docker-compose.yml           # Single-command Docker setup
-├── package.json                 # Dependencies and scripts
-└── vite.config.js               # Vite configuration
+│   │   ├── common/                  # Stepper (clickable), Button, Loading, Error, Empty
+│   │   ├── step1/                   # Postcode lookup + address list + manual entry
+│   │   ├── step2/                   # Waste type + plasterboard branching
+│   │   ├── step3/                   # Skip selection (disabled logic + ARIA)
+│   │   └── step4/                   # ContactInfo, DeliveryDatePicker, ConfirmButton, ReviewSummary
+│   ├── context/BookingContext.jsx   # Global state + sessionStorage persistence
+│   ├── hooks/useApi.js              # Fetch wrapper (loading / error / retry)
+│   └── utils/
+│       ├── deliveryDates.js         # Weekday-only date generation (unit-tested)
+│       ├── formatCurrency.js        # GBP formatter
+│       └── postcodeValidator.js     # UK postcode regex + normalisation
+├── bug-reports.md                   # BUG-001/002/003 — documented, triaged, fixed
+├── manual-tests.md                  # 47 manual test cases
+├── TESTING_STRATEGY.md              # Test pyramid, rationale, known gaps
+├── Dockerfile                       # Multi-stage build
+├── docker-compose.yml
+└── vitest.config.js                 # jsdom environment, V8 coverage
 ```
-
-## API Reference
-
-| Method | Route | Description | Request Body | Response |
-|--------|-------|-------------|-------------|----------|
-| POST | `/api/postcode/lookup` | Look up addresses by postcode | `{ "postcode": "SW1A 1AA" }` | `{ "postcode": "...", "addresses": [...] }` |
-| POST | `/api/waste-types` | Save waste type selection | `{ "wasteType": "General waste" }` | `{ "ok": true }` |
-| GET | `/api/skips?postcode=X&heavyWaste=Y` | Get skip options for postcode | — | `[{ "id", "name", "size", "price", "disabled" }]` |
-| POST | `/api/booking/confirm` | Confirm booking | Full booking payload | `{ "bookingId": "...", "status": "confirmed" }` |
-| GET | `/health` | Health check | — | `{ "status": "ok", "timestamp": "..." }` |
-| GET | `/api/debug/reset-retry` | Reset BS1 4DJ retry counter | — | `{ "ok": true }` |
-
-### Deterministic Fixture Postcodes
-
-| Postcode | Behaviour |
-|----------|-----------|
-| `SW1A 1AA` | Returns 12 addresses — happy path |
-| `EC1A 1BB` | Returns 0 addresses — triggers auto-show manual entry form |
-| `M1 1AE` | Simulated ~3 second latency — tests loading states |
-| `BS1 4DJ` | Returns 500 on first call, success on retry — tests error handling + retry |
-
-## Test Strategy
-
-### Manual Tests
-
-- **Location:** [manual-tests.md](manual-tests.md)
-- **Total cases:** 45+
-- **Distribution:**
-  - Positive (happy path): 12 cases
-  - Negative (invalid input): 12 cases
-  - Edge cases: 8 cases
-  - API failure/error handling: 6 cases
-  - State transition/branching: 7 cases
-
-### Automated E2E Tests
-
-```bash
-npm run test:e2e              # run all 3 specs
-npx playwright test --ui --config=automation/playwright.config.js  # Playwright UI mode
-```
-
-- **3 specs:**
-  - `general-waste-flow.spec.js` — Full happy path: SW1A 1AA → address → General waste → skip → confirm
-  - `heavy-waste-flow.spec.js` — Heavy waste path: verifies disabled skips, selects enabled skip → confirm
-  - `plasterboard-flow.spec.js` — Plasterboard branching: selects handling option → skip → confirm with plasterboard in summary
-- **Covers:** Happy paths, error states, retry logic, disabled skip validation, branching logic
-- **Selectors:** All tests use centralised `data-testid` constants from `automation/helpers/selectors.js`
-- **Mocking strategy:** No mocks — tests run against the real Express API with deterministic JSON fixtures, ensuring identical behaviour between test and production environments
-
-### Bug Reports
-
-- **Location:** [bug-reports.md](bug-reports.md)
-- **3 documented bugs:**
-
-| ID | Title | Severity | Location |
-|----|-------|----------|----------|
-| BUG-001 | Plasterboard option persists after switching to General waste | Medium | `BookingContext.jsx` — `setWasteType()` |
-| BUG-002 | Disabled skip cards are keyboard-selectable | High | `SkipCard.jsx` — `disabled` prop not passed to `<button>` |
-| BUG-003 | Double-click submits duplicate booking requests | Low | `ConfirmButton.jsx` — `setSubmitting(true)` called after `await` |
-
-## Known Bugs
-
-| ID | Title | Severity | Category |
-|----|-------|----------|----------|
-| BUG-001 | Plasterboard option persists in booking after switching to General waste | Medium | State transition |
-| BUG-002 | Disabled skip cards are keyboard-selectable via Tab + Enter/Space | High | Accessibility |
-| BUG-003 | Double-click on Confirm Booking submits duplicate requests | Low | Double submit |
-
-> These bugs are intentionally implemented for the QA assessment. Full reproduction steps, expected vs. actual results, and root cause analysis are documented in [bug-reports.md](bug-reports.md).
-
-## UI/UX Evidence
-
-| Deliverable | Location |
-|-------------|----------|
-| Desktop screenshots (12) | `ui/screenshots/desktop/` |
-| Mobile screenshots (12) | `ui/screenshots/mobile/` |
-| Flow video | `ui/videos/booking-flow.webm` |
-| Lighthouse report | `ui/lighthouse/report.html` |
-
-Evidence covers: all 4 steps, error states, retry flows, disabled skip visibility, plasterboard branching, price breakdown, and responsive layouts.
-
-## Architecture Decisions
-
-**Why Vite + Express over Next.js**
-This project is a client-rendered SPA with a lightweight API. Vite provides instant HMR and sub-second builds without the complexity of SSR, server components, or file-based routing. Express serves the built static files in production and handles the API — a single process that maps cleanly to Docker and Render.com deployment.
-
-**Why deterministic JSON fixtures over a real database**
-The QA assessment requires reproducible, predictable test data. JSON fixtures guarantee that `SW1A 1AA` always returns exactly 12 addresses and `BS1 4DJ` always fails on the first attempt. This eliminates database setup, seeding, and state management while making E2E tests fully deterministic.
-
-**Why CSS Modules over a CSS framework**
-CSS Modules provide component-scoped styles with zero runtime overhead. Each component (e.g., `Step1.module.css`) has its own namespace, preventing style collisions. This avoids the learning curve and bundle size of a framework like Tailwind while keeping styles co-located with components.
-
-**Why Playwright over Cypress**
-Playwright supports multi-browser testing, has native auto-wait functionality (no `cy.wait()` hacks), and provides built-in video recording and screenshot capture. Its `data-testid` locator strategy aligns with the project's architecture rules, and the `webServer` config automatically starts the dev server during test runs.
-
-**Mocking strategy for E2E tests**
-Tests run against the real Express API with deterministic fixtures rather than mocking network requests. This tests the full integration path (React → HTTP → Express → JSON → Response) and ensures the tests validate the same code path that runs in production. The `/api/debug/reset-retry` endpoint allows tests to reset server-side state between runs.
-
-## What I Would Do With More Time
-
-- **Unit tests for utilities** — Add Jest/Vitest unit tests for `postcodeValidator.js` and `formatCurrency.js` to cover edge cases (empty input, negative values, non-UK formats)
-- **Real postcode API** — Replace fixtures with live lookups via the [postcodes.io](https://postcodes.io) API, with fixture fallback for offline testing
-- **Form persistence** — Save booking progress to `localStorage` so users can survive page refresh without losing their selections
-- **Improved accessibility** — Fix BUG-002 with a full ARIA disabled pattern (`aria-disabled`, `tabindex="-1"`, `role="button"`) and add keyboard navigation for the stepper
-- **CI/CD pipeline** — Add a GitHub Actions workflow: lint → build → E2E tests → deploy to Render on push to `main`
-- **Expanded E2E coverage** — Add specs for all 4 fixture postcodes, negative paths (invalid postcode, empty address), and the manual entry flow for `EC1A 1BB`
-
-## Environment Variables
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `PORT` | `3000` | Express server port (Render injects this automatically) |
-| `NODE_ENV` | `development` | Set to `production` to enable static file serving from `dist/` |
 
 ---
 
-*Built by Stephanie as a QA Engineering assessment submission for REM Waste.*
+## API Contract
+
+| Method | Endpoint | Purpose |
+|--------|----------|---------|
+| POST | `/api/postcode/lookup` | Postcode → addresses |
+| POST | `/api/waste-types` | Waste type save (always 200) |
+| GET | `/api/skips?postcode=X&heavyWaste=Y` | Skip options |
+| POST | `/api/booking/confirm` | Confirm → bookingId |
+| GET | `/health` | Health check |
+| GET | `/api/debug/reset-retry` | Reset BS1 4DJ retry counter |

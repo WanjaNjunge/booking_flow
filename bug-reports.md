@@ -13,7 +13,9 @@
 | Expected Result | plasterboardOption should be null/cleared in the confirmed booking payload |
 | Actual Result | plasterboardOption: "Dedicated plasterboard skip" is submitted with the booking |
 | Root Cause | BookingContext does not clear plasterboardOption when waste type changes away from Plasterboard |
-| Evidence | Screenshot/video TBD |
+| Status | **Fixed** |
+| Fix | Updated `setWasteType` in `BookingContext.jsx` to set `plasterboardOption: null` in the same state update |
+| Commit | (see git log) |
 
 ---
 
@@ -30,7 +32,9 @@
 | Expected Result | Disabled skip cards should not be focusable or selectable via keyboard |
 | Actual Result | Disabled skip card is focused and selected; booking proceeds with a disabled skip size |
 | Root Cause | disabled prop not passed to the underlying `<button>` element; only the CSS class is applied |
-| Evidence | Screenshot/video TBD |
+| Status | **Fixed** |
+| Fix | Passed `disabled={disabled}` to `<button>` in `SkipCard.jsx`; added ARIA labels for WCAG 2.1 SC 2.1.1 compliance |
+| Commit | (see git log) |
 
 ---
 
@@ -47,4 +51,6 @@
 | Expected Result | Button disables immediately on first click; only one API call is made |
 | Actual Result | Two POST /api/booking/confirm requests are sent; button remains clickable during the first request |
 | Root Cause | setSubmitting(true) is called after the await resolves, not before the async call begins |
-| Evidence | Screenshot/video TBD |
+| Status | **Fixed** |
+| Fix | Moved `setSubmitting(true)` to the first line of `handleConfirm` in `ConfirmButton.jsx`, before the fetch call; added inline error recovery |
+| Commit | (see git log) |

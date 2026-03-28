@@ -71,6 +71,17 @@
   color: #fff;
 }
 
+.step.clickable {
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: inherit;
+}
+
+.step.clickable:hover .indicator {
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.3);
+}
+
 .label {
   display: none;
 }

@@ -1,6 +1,16 @@
 import { test, expect } from '@playwright/test';
 import { SELECTORS, skipCard, addressOption } from '../helpers/selectors.js';
 
+function nextWeekday() {
+  const d = new Date();
+  d.setDate(d.getDate() + 1);
+  while (d.getDay() === 0 || d.getDay() === 6) d.setDate(d.getDate() + 1);
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
 test.describe('Plasterboard — Branching Logic', () => {
 
   test.beforeEach(async ({ request }) => {
@@ -44,12 +54,15 @@ test.describe('Plasterboard — Branching Logic', () => {
     await expect(page.locator(SELECTORS.REVIEW_PLASTERBOARD_OPTION))
       .toContainText('Dedicated plasterboard skip');
 
-    // Confirm
+    // Fill required fields and confirm
+    await page.locator(SELECTORS.CONTACT_EMAIL).fill('test@example.com');
+    await page.locator(SELECTORS.DELIVERY_DATE_INPUT).fill(nextWeekday());
+    await page.locator(SELECTORS.TERMS_CHECKBOX).check();
     await page.locator(SELECTORS.CONFIRM_BUTTON).click();
     await expect(page.locator(SELECTORS.BOOKING_SUCCESS)).toBeVisible({ timeout: 5000 });
   });
 
-  test('BUG-001: plasterboard option persists when switching to general', async ({ page }) => {
+  test('BUG-001 fixed: plasterboard option is cleared when switching to general waste', async ({ page }) => {
     await page.goto('/');
     await page.locator(SELECTORS.POSTCODE_INPUT).fill('SW1A 1AA');
     await page.locator(SELECTORS.POSTCODE_SUBMIT).click();
@@ -60,7 +73,7 @@ test.describe('Plasterboard — Branching Logic', () => {
     await page.locator(SELECTORS.WASTE_TYPE_PLASTERBOARD).click();
     await page.locator(SELECTORS.PLASTERBOARD_BAG).click();
 
-    // Switch to general waste
+    // Switch to general waste — plasterboardOption must be cleared
     await page.locator(SELECTORS.WASTE_TYPE_GENERAL).click();
     await expect(page.locator(SELECTORS.PLASTERBOARD_OPTIONS)).not.toBeVisible();
     await page.locator(SELECTORS.STEP2_CONTINUE).click();
@@ -70,7 +83,7 @@ test.describe('Plasterboard — Branching Logic', () => {
     await page.locator(skipCard('4-yard')).click();
     await page.locator(SELECTORS.STEP3_CONTINUE).click();
 
-    // BUG-001: plasterboard option still shows in review
-    await expect(page.locator(SELECTORS.REVIEW_PLASTERBOARD_OPTION)).toBeVisible();
+    // BUG-001 FIXED: plasterboard option must NOT appear in review
+    await expect(page.locator(SELECTORS.REVIEW_PLASTERBOARD_OPTION)).not.toBeVisible();
   });
 });
