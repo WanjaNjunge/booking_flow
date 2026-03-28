@@ -55,7 +55,7 @@ export default function WasteTypeSelector() {
     const isPlasterboard = selected === 'plasterboard';
 
     setWasteType(selected);
-    setPlasterboardOption(isPlasterboard ? plasterboardChoice : plasterboardChoice);
+    setPlasterboardOption(isPlasterboard ? plasterboardChoice : null);
 
     await execute('/api/waste-types', {
       method: 'POST',
